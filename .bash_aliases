@@ -4,7 +4,7 @@
 # Author: Oscar Sironi
 # Date: 16.06.2014
 # Rev: 02.11.2019
-# Notes: Fixed escapes, add some functions
+# Notes: Fixed escapes, added some functions. Please feel free to improve!
 #-------------------------------------------------------------------------------------------
 
 
