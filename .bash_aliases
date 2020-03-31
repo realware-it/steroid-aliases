@@ -1,16 +1,17 @@
-#-------------------------------------------------------------------------------------------
-# BASH ALIASES on steroids:
-#-------------------------------------------------------------------------------------------
+30/03/2020 08:30
+
+# BASH ALIASES (on steroids):
+#--------------------------------------------
 # Author: Oscar Sironi
-# Date: 16.06.2014
-# Rev: 02.11.2019
-# Notes: Fixed escapes, added some functions. Please feel free to improve!
-#-------------------------------------------------------------------------------------------
+# Date: 20140616
+# Revision: 20200315
+# Note: Sistemati alcuni escapes, aggiunte funzioni
+#--------------------------------------------
 
 
-#-------------------------------------------------------------------------------------------
-# DIRECTORY UTILS:
-#-------------------------------------------------------------------------------------------
+#-----------------------------------------
+# MUOVERSI TRA DIRECTORY E COMANDI UTILI
+#--------------------------------------------
 
 alias ll='ls -lhA --color=always'
 alias ..='cd ..'
@@ -19,29 +20,29 @@ alias ....='cd ../../../../'
 alias .....='cd ../../../../'
 alias cd..='cd ..'
 
-#Useful for colorize grep logs
+## Colora output dei comandi grep, utile per i log) ##
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
-#Colordiff
+# colordiff
 alias diff='colordiff'
-#Always be root #
+# usa root #
 alias root='sudo -i'
 alias su='sudo -i'
 
-#Handy short cuts
+# handy short cuts #
 alias h='history'
 alias j='jobs -l'
 
-#Preserve your system from potentially destructive commands
+# preserva da grossi danni al sistema e comandi potenzialmente distruttivi #
 alias rm='rm -I --preserve-root'
 alias cp="cp -iv"
 alias rm="rm -i"
 alias mv="mv -iv"
 
 #-------------------------------------------------------------------------------------------
-# FILE MANIPULATION AND COMMON TASKS:                   
+# MANIPOLAZIONE FILE E COMANDI COMUNI:                   
 #-------------------------------------------------------------------------------------------
 
 #Trova i 5 file più grossi sul sistema operativo
@@ -53,60 +54,64 @@ alias nocomment='grep -Ev '\''^(#|$)'\'''
 alias c='clear'
 
 #-------------------------------------------------------------------------------------------
-# SYSTEM PROCESSES AND DISK:                                     
+# PROCESSESSI DI SISTEMA E DISCO:                                     
 #-------------------------------------------------------------------------------------------
 
 alias df="df -Tha --total"
 alias ps="ps auxf"
 alias top="htop"
 
-#System update (debian based)
-alias update='sudo apt update && sudo apt upgrade -y'
-alias apt='sudo apt'
+#Aggiornamento sistema
+alias update='sudo apt-get update && sudo apt-get upgrade -y'
+alias apt-get='sudo apt-get'
 alias install='sudo apt-get install'
 
-#Preserve from damage when working on root /
+#Preserva danni quando si manipolano permessi sulla / #
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 
 alias pstree='/sw/bin/pstree -g 2 -w'
 
-# findPid: Find PID for a specific process
+# findPid: trova il pid di un determinato processo
 #    Può essere usato anche con regex
-#    Es: findPid '/d$/' finds all processes names ending with 'd'
-#    Warning: Without root you just see current logged user processes
+#    Es: findPid '/d$/' trova il pid di tutti i processi con nome che finisce con 'd'
+#    Attenzione: senza sudo trova solo i processi dell'user corrente
 findPid () { sudo /usr/sbin/lsof -t -c "$@" ; }
 
-#Find RAM hogs:
+# Cerca mostri che mangiano RAM:
 alias mem_monsters_top='top -l 1 -o rsize -n 10'
 alias mem_monsters_ps='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 
-#Find CPU hogs:
+# Cerca mostri che mangiano CPU:
 alias cpu_monsters='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
 
-# Persistent top with 10s refresh rate, shows top 15 CPU hogs
+# Top persistente con refresh di 10 secondi, mostra i top 15 consumatori CPU 
 alias topforever='top -l 0 -s 10 -o cpu -n 15'
 
+#Preso da MacOShints
+# recommended 'top' invocation to minimize resources in thie macosxhints article
+# http://www.macosxhints.com/article.php?story=20060816123853639
+# exec /usr/bin/top -R -F -s 10 -o rsize
 
 # diskwho: mostra i processi che stanno in read/write
 alias diskwho='sudo iotop'
 
 
 #-------------------------------------------------------------------------------------------
-# ARCHIVE TOOLS
+# GESTIONE ARCHIVI
 #-------------------------------------------------------------------------------------------
 alias untarz='tar -xzf'
 alias untarj='tar -xjf'
 
 #-------------------------------------------------------------------------------------------
-# PASSWORD GENERATOR 
+# GENERATORE PASSWORD
 #-------------------------------------------------------------------------------------------
 alias passgen='sudo pwgen -B -c -n  -y  8 100 > passtest.txt'
 
 
 #-------------------------------------------------------------------------------------------
-# FILE EDITORS AND TEXT MANIPULATION:
+# FILE EDITORS E MANOIPOLAZIONE TESTO:
 #-------------------------------------------------------------------------------------------
 
 alias nano="sudo nano"
@@ -147,47 +152,48 @@ allStrings () { cat "$1" | tr -d "\0" | strings ; }
 # INTERNET E NETWORKING:                                       
 #-------------------------------------------------------------------------------------------
 
-#Ping with 5 requests
+#Ping 5 richieste
 alias ping='ping -c 5'
 
-#Ping faster, remove 1s delay between requests
+# Ping veloce, toglie 1s delay tra le richieste #
 alias fastping='ping -c 100 -s.2'
 
-#Check ports
+#Controlla porte
 alias ports='netstat -tulanp'
 
-#Check open ports, es chkports openvpn > Show openvpn ports
+#Controlla porte, es chkports openvpn > Mostra porte in uso da openvpn
 chkports () {
 read programma
 netstat -tulanp | grep $programma
 }
 
 
-
-#Iptables rules
+## scorciatoia per iptables via sudo#
 alias ipt='sudo /sbin/iptables'
+
+# Listare regole iptables
 alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'
 alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
 alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
 alias firewall=iptlist
 
-# netparams: to show values of network parameters in the kernel
-alias netparams='sysctl -a | grep net'
+
+alias wget='wget -c'
 
 
 #-------------------------------------------------------------------------------------------
-# ~/.bash_aliases RELATED:
+# COMANDI RELATIVI A QUESTO FILE ~/.bash_aliases
 #-------------------------------------------------------------------------------------------
 
-#showa: Find a command in this file
+#showa: Cercare comando alias che non ricordiamo
 showa () { /usr/bin/grep -i -a1 $@ ~/.aliases.bash | grep -v '^\s*$' ; }
 
-#sourcea: source this file and apply
+# sourcea: source questo file (rende attive le modifiche)
 alias sourcea='source ~/.bash_aliases'
 
 #-------------------------------------------------------------------------------------------
-# TERMINAL AND SHELL:
+# TERMINALE E GESTIONE DELLA SHELL:
 #-------------------------------------------------------------------------------------------
 
 # fix_stty: ripristina settaggi del terminale nel caso si dovesse corrompere
@@ -199,11 +205,8 @@ alias nocase='set completion-ignore-case On'
 # show_options: Mostra impostazioni tramite bash options
 alias show_options='shopt'
 
-#Mostra la top ten della history, i comandi più usati da cui si possono creare utili aliases
-alias tophist="history | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./ \" | column -c3 -s \" \" -t | sort -nr | nl |  head -n10"
-
 #-------------------------------------------------------------------------------------------
-# SEARCH TOOLS:
+# STRUMENTI DI RICERCA:
 #-------------------------------------------------------------------------------------------
 
 # ff: Cercare un file nella directory corrente
@@ -229,7 +232,7 @@ grepincl () { (cd /usr/include; find . -type f -name '*.h' -print0 | xargs -0 gr
 findbigger() { find . -type f -size +${1}c ; }
 
 #-------------------------------------------------------------------------------------------
-# SYSTEM UTILITIES:
+# UTILITA' DI SISTEMA VARIE
 #-------------------------------------------------------------------------------------------
 
 # Usa diskutil perriparare i permessi
@@ -244,42 +247,50 @@ alias third_party_kexts='kextstat | grep -v com.apple'
 # show_optical_disk_info - e.g. what type of CD & DVD media is supported
 alias show_optical_disk_info='drutil info'
 
+
 # mount_read_write: for use when booted into single-user
 alias mount_read_write='/sbin/mount -uw /'
+
+# herr: shows the most recent lines from the HTTP error log
+alias herr='tail /var/log/httpd/error_log'
+
+# use vsdbutil to show/change the permissions ignoring on external drives
+# To ignore ownerships on a volume, do: sudo vsdbutil -d /VolumeName
+# To restore ownerships on a volume, do: sudo vsdbutil -a /VolumeName
+# To check the status of ownerships, do: sudo vsdbutil -c /VolumeName
+alias ignore_permissions='sudo vsdbutil -d'
+
+# to change the password on anencrypted disk image:
+# hdiutil chpass /path/to/the/diskimage
+# netparams: to show values of network parameters in the kernel
+alias netparams='sysctl -a | grep net'
 
 # swapinfo: to display info on swap
 alias swapinfo='sysctl vm.swapusage'
 alias lso="ls -alG | awk '{k=0;for(i=0;i<=8;i++)k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf(\" %0o \",k);print}'"
 
-
 #-------------------------------------------------------------------------------------------
-# LOGS (to be done)
-#-------------------------------------------------------------------------------------------
-
-
-
-#-------------------------------------------------------------------------------------------
-# SCRIPTS AND FUNCIONS:
+# AREA SCRIPTS E FUNZIONI:
 #-------------------------------------------------------------------------------------------
 
-#Make a directory and jump into it
+#Crea una directory ed entra in essa
 
 mkd () {
     mkdir -p $1
     cd $1
 }
 
-#Show directory tree
+# Mostra albero directory 
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 
-#Turn off screen
+# Spegni schermo
 alias screenoff='xset dpms force off'
 
-#List folders by size in current directory
+# list folders by size in current directory
 alias usage='du -h --max-depth=1 | sort -rh'
 
-# Directory crawler, es:  up -> go up 1 dir 
-# up 4 -> go up 4 directories
+# Arrampica directory, es:  up -> sale di una directory
+# up 4 -> sale di 4 directories
 up()
 {
     dir=""
@@ -296,12 +307,12 @@ up()
 }
 
 
-#Archives extractor
-#!/bin/bash
+#Estrattore files
+#!/bin/zsh
 function extract {
  if [ -z "$1" ]; then
-    # When no parameters given, shows the howto
-    echo "How to use: extract <path/filename>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    # Se nessun parametro viene specificato, mostra come usarlo
+    echo "Utilizzo: extract <path/nomefile>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
  else
     if [ -f "$1" ] ; then
         NAME=${1%.*}
@@ -325,14 +336,16 @@ function extract {
           *)           echo "extract: '$1' - unknown archive method" ;;
         esac
     else
-        echo "'$1' - file does not exist"
+        echo "'$1' - file does not exist"[]()
     fi
 fi
 }
 
 #-------------------------------------------------------------------------------------------
-# MISCELLANEOUS:
+# VARIE SVILUPPO:
 #-------------------------------------------------------------------------------------------
 
-alias wget='wget -c'
-alias clone='git clone'
+#Jekyll stuff
+alias jbuild="cd ~/Projects/yourproject.github.io && sudo bundle exec jekyll build --watch"
+alias jrun="cd ~/Projects/yourproject.github.io &&  sudo bundle exec jekyll s --host kaio.realware.it"
+alias jpub="cd ~/Projects/yourproject.github.io && sudo cp -r _site/* /var/www/realware.it/web/"
