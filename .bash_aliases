@@ -1,5 +1,3 @@
-30/03/2020 08:30
-
 # BASH ALIASES (on steroids):
 #--------------------------------------------
 # Author: Oscar Sironi
